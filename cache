@@ -9,7 +9,7 @@ iCheck='ping -w0 -c1 1.1.1.1'
 
 if $iCheck > /dev/null 2>&1; then
 	# Execute the command and get the output along with the script overhead
-	script -qc "$@" "$tmpfile" 2>/dev/null 1>/dev/null
+	script -qc "$@" "$tmpfile" 1>/dev/null 2>&1
 	dos2unix "$tmpfile" 2>/dev/null 1>/dev/null
 	# Remove starting line
 	output=$(tail -n+2 "$tmpfile")
@@ -42,7 +42,7 @@ else
 	# Find timeThen in seconds
 	timeThen=$(date  -d "$timestamp" +%s)
 
-	if type humanTimeDiff; then
+	if type humanTimeDiff 1>/dev/null 2>&1; then
 		output=$(echo -e "$output\nLast updated $(humanTimeDiff "$timeThen")")
 	else
 		output=$(echo -e "$output\nLast updated $timestamp")
